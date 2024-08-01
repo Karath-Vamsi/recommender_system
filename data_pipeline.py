@@ -40,30 +40,6 @@ class Data_procure:
     def load_extract(self):
         self.__download()
         self.__extract()
-
-    def load_precalc_params(self):
-
-        data_directory = r'C:\Users\karat\OneDrive\Documents\machine learning\datasets\movies_recom_sys\movies_data'
-
-        x_file = os.path.join(data_directory, 'small_movies_X.csv')
-        w_file = os.path.join(data_directory, 'small_movies_W.csv')
-        b_file = os.path.join(data_directory, 'small_movies_b.csv')
-        
-        with open(x_file, 'rb') as file:
-            X = np.loadtxt(file, delimiter=",")
-        
-        with open(w_file, 'rb') as file:
-            W = np.loadtxt(file, delimiter=",")
-        
-        with open(b_file, 'rb') as file:
-            b = np.loadtxt(file, delimiter=",")
-        
-        b = b.reshape(1, -1)
-        
-        num_movies, num_features = X.shape
-        num_users, _ = W.shape
-        
-        return X, W, b, num_movies, num_features, num_users
     
     def load_ratings(self):
 
