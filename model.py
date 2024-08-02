@@ -42,3 +42,6 @@ class Model_builder:
                 print(f"Training loss at iteration {iter}: {cost_value:0.1f}")
 
         return X, W, b, Ymean
+    
+    def predict(self, X, W, b, Ymean):
+        return np.array(tf.linalg.matmul(X, tf.transpose(W)) + b + Ymean)
