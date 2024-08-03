@@ -1,4 +1,5 @@
 import data_pipeline as pipe
+from display import display_database
 import model as sys
 import numpy as np
 import tensorflow as tf
@@ -28,9 +29,10 @@ def main():
 
     data_pipe = pipe.Data_procure()
 
-    data_pipe.load_extract()
+    #data_pipe.load_extract()
     movieList, movieList_df = data_pipe.load_movie_list()
 
+    #  Rate some movies
     my_ratings, my_rated = create_ratings(movieList)
 
     Y, R = data_pipe.load_ratings()
@@ -59,4 +61,8 @@ def main():
             print(f'Original {my_ratings[i]}, Predicted {my_predictions[i]:0.2f} for {movieList[i]}')
 
 if __name__ == '__main__':
-    main()
+    display_database()
+    action = input("Would you like rate some model? (y/n): ")
+
+    if action.lower() == 'y':
+        main()
