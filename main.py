@@ -62,7 +62,7 @@ def main():
 
 if __name__ == '__main__':
     display_database()
-    action = input("Would you like rate some model? (y/n): ")
+    action = input("Would you like rate some movies? (y/n): ")
 
     if action.lower() == 'y':
         main()
