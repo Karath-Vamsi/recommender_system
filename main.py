@@ -27,12 +27,13 @@ def create_ratings(movieList):
 
 def main():
 
+    # activate the data pipeline
     data_pipe = pipe.Data_procure()
 
-    #data_pipe.load_extract()
+    data_pipe.load_extract()
     movieList, movieList_df = data_pipe.load_movie_list()
 
-    #  Rate some movies
+    # Rate some movies
     my_ratings, my_rated = create_ratings(movieList)
 
     Y, R = data_pipe.load_ratings()
@@ -40,7 +41,7 @@ def main():
     Y = np.c_[my_ratings, Y]
     R = np.c_[(my_ratings != 0).astype(int), R]
 
-    # Build the model
+    # Train the model
     model = sys.Model_builder()
     X, W, b, Ymean = model.model(Y, R, 1)
 
@@ -50,15 +51,15 @@ def main():
 
     ix = tf.argsort(my_predictions, direction='DESCENDING')
 
-    for i in range(17):
+    print('\nTop recommendations for you:\n')
+    for i in range(15):
         j = ix[i]
         if j not in my_rated:
-            print(f'Predicting rating {my_predictions[j]:0.2f} for movie {movieList[j]}')
+            print(f'{i+1}. {movieList[j]}')
 
-    print('\n\nOriginal vs Predicted ratings:\n')
-    for i in range(len(my_ratings)):
-        if my_ratings[i] > 0:
-            print(f'Original {my_ratings[i]}, Predicted {my_predictions[i]:0.2f} for {movieList[i]}')
+    test = input("Would you like to test the model? (y/n): ")   
+    if test.lower() == 'y':
+        model.test_model(my_ratings, my_predictions, movieList)
 
 if __name__ == '__main__':
     display_database()
