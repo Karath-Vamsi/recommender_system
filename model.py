@@ -38,10 +38,18 @@ class Model_builder:
             grads = tape.gradient( cost_value, [X,W,b] )
             optimizer.apply_gradients( zip(grads, [X,W,b]) )
             
-            if iter % 10 == 0:
+            if iter % 30 == 0:
                 print(f"Training loss at iteration {iter}: {cost_value:0.1f}")
+            if iter == 200:
+                print(f"Final training loss: {cost_value:0.1f}")
 
         return X, W, b, Ymean
     
     def predict(self, X, W, b, Ymean):
         return np.array(tf.linalg.matmul(X, tf.transpose(W)) + b + Ymean)
+    
+    def test_model(self,my_ratings,my_predictions,movieList):
+        print('\n\nOriginal vs Predicted ratings:\n')
+        for i in range(len(my_ratings)):
+            if my_ratings[i] > 0:
+                print(f'Original {my_ratings[i]}, Predicted {my_predictions[i]:0.2f} for {movieList[i]}')
